@@ -1,23 +1,55 @@
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
+import { 
+  Button,
+  ImageBackground,
+  StyleSheet,
+  Text, 
+  TextInput, 
+  View, 
+  KeyboardAvoidingView, 
+  Keyboard
+} from 'react-native';
 
 export default function App() {
+  const [isShowKeybord, setIsShowKeybord] = useState(false)
+
+  const keyboardHide = () =>{
+    setIsShowKeybord(false);
+    Keyboard.dismiss()
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
       style={styles.image}
       source={require('./assets/images/hd-wallpaper-g894f88c32_1280.jpg')}>
-      <View style={styles.form}>
-        <View>
-          <Text style={styles.inputTitle}>Email addres</Text>
-          <TextInput style={styles.loginInput} textAlign={'center'}/>
-        </View>
-        <View style={{marginTop: 20}}>
-          <Text style={styles.inputTitle}>Password</Text>
-          <TextInput style={styles.loginInput} textAlign={'center'} secureTextEntry={true}/>
-        </View>
-        <Button title='SIGN IN'/>
-      </View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+            <View style={{...styles.form, marginBottom: isShowKeybord ? 20 : 100 }}>
+            <View>
+              <Text style={styles.inputTitle}>Email addres</Text>
+              <TextInput 
+              style={styles.loginInput} 
+              textAlign={'center'}
+              onFocus={()=>setIsShowKeybord(true)}
+              />
+            </View>
+            <View style={{marginTop: 20, marginBottom: 20}}>
+              <Text style={styles.inputTitle}>Password</Text>
+              <TextInput 
+              style={styles.loginInput} 
+              textAlign={'center'}
+              secureTextEntry={true}
+              onFocus={()=>setIsShowKeybord(true)}
+              />
+            </View>
+            <Button title='SIGN IN'
+              onPress={keyboardHide}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
       
       <StatusBar style="auto" />
