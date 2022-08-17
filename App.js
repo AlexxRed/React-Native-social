@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
   return (
@@ -16,6 +16,7 @@ export default function App() {
           <Text style={styles.inputTitle}>Password</Text>
           <TextInput style={styles.loginInput} textAlign={'center'} secureTextEntry={true}/>
         </View>
+        <Button title='SIGN IN'/>
       </View>
       </ImageBackground>
       
