@@ -8,19 +8,50 @@ import {
   TextInput, 
   View, 
   KeyboardAvoidingView, 
-  Keyboard
+  Keyboard,
+  TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
+
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
+
+const loadFonts = async () => {
+  await Font.loadAsync({
+    "DynaPuff": require("./assets/fonts/static/DynaPuff/DynaPuff-Regular.ttf"), 
+  });
+};
+
+
+const initialState = {
+  email: '',
+  password: ''
+}
 
 export default function App() {
   const [isShowKeybord, setIsShowKeybord] = useState(false)
+  const [state, setState] = useState(initialState)
+  const [isReady, setIsReady] = useState(false)
 
   const keyboardHide = () =>{
     setIsShowKeybord(false);
-    Keyboard.dismiss()
+    Keyboard.dismiss();
+    console.log(state)
+    setState(initialState)
   }
+
+  if (!isReady) {
+    return <AppLoading
+     startAsync={loadFonts} 
+     onFinish={() => setIsReady(true)}
+     onError={console.warn}
+     />
+}
 
   return (
     <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ImageBackground
       style={styles.image}
       source={require('./assets/images/hd-wallpaper-g894f88c32_1280.jpg')}>
@@ -34,6 +65,8 @@ export default function App() {
               style={styles.loginInput} 
               textAlign={'center'}
               onFocus={()=>setIsShowKeybord(true)}
+              value={state.email}
+              onChangeText = {(value) => setState((prevState) => ({...prevState, email: value}))}
               />
             </View>
             <View style={{marginTop: 20, marginBottom: 20}}>
@@ -43,6 +76,8 @@ export default function App() {
               textAlign={'center'}
               secureTextEntry={true}
               onFocus={()=>setIsShowKeybord(true)}
+              value={state.password}
+              onChangeText = {(value) => setState((prevState) => ({...prevState, password: value}))}
               />
             </View>
             <Button title='SIGN IN'
@@ -51,6 +86,8 @@ export default function App() {
           </View>
         </KeyboardAvoidingView>
       </ImageBackground>
+      </TouchableWithoutFeedback>
+      
       
       <StatusBar style="auto" />
     </View>
@@ -60,13 +97,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    ...Platform.select({
+      android:{
+        backgroundColor: "#fff"
+      },
+      ios:{
+        backgroundColor: `#fffaf0`
+      }
+    })
+    // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   text:{
     color: "blue",
-     fontSize: 25
+     fontSize: 35,
+     fontFamily: 'DynaPuff'
   },
   textBox:{
     borderWidth: 2,
@@ -96,5 +142,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     color:'#fff',
     fontSize: 18,
+    fontFamily: 'DynaPuff'
   }, 
 });
