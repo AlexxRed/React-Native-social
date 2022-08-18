@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { 
   Button,
@@ -10,7 +10,8 @@ import {
   KeyboardAvoidingView, 
   Keyboard,
   TouchableWithoutFeedback,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native';
 
 import * as Font from 'expo-font';
@@ -33,6 +34,23 @@ export default function App() {
   const [isShowKeybord, setIsShowKeybord] = useState(false)
   const [state, setState] = useState(initialState)
   const [isReady, setIsReady] = useState(false)
+
+  const [dimensions, setDimensions] = useState(
+    Dimensions.get("window").width - 20 * 2
+  );
+
+  useEffect(() => {
+    const onChange = () => {
+      const width = Dimensions.get("window").width - 20 * 2;
+      console.log(width)
+      setDimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
+  }, []);
+  
 
   const keyboardHide = () =>{
     setIsShowKeybord(false);
@@ -58,7 +76,11 @@ export default function App() {
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-            <View style={{...styles.form, marginBottom: isShowKeybord ? 20 : 100 }}>
+            <View style={{
+              ...styles.form,
+               marginBottom: isShowKeybord ? 20 : 100,
+               width: dimensions
+              }}>
             <View>
               <Text style={styles.inputTitle}>Email addres</Text>
               <TextInput 
