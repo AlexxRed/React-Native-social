@@ -11,7 +11,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
-  Dimensions
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 
 
@@ -23,7 +24,9 @@ const initialState = {
   password: ''
 }
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
+  // console.log(navigation)
+  
   const [isShowKeybord, setIsShowKeybord] = useState(false)
   const [state, setState] = useState(initialState)
   
@@ -65,7 +68,7 @@ export default function LoginScreen() {
             >
             <View style={{
               ...styles.form,
-               marginBottom: isShowKeybord ? 20 : 100,
+               marginBottom: isShowKeybord ? 20 : 40,  
                width: dimensions
               }}>
             <View style={styles.header}>
@@ -96,6 +99,23 @@ export default function LoginScreen() {
             <Button title='SIGN IN'
               onPress={keyboardHide}
             />
+            <TouchableOpacity 
+                onPress={()=> navigation.navigate("Register")}
+                style={{
+                alignItems:'center',
+                 justifyContent:'center',
+                 fontSize:20,
+                 marginTop:10
+                 }}>
+               <Text 
+               style={{
+               fontSize:20,
+               fontFamily: 'DynaPuff', 
+               color: '#dc143c'
+               }}
+               >Go to register</Text>
+            </TouchableOpacity> 
+
           </View>
         </KeyboardAvoidingView>
       </ImageBackground>
