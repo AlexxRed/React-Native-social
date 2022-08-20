@@ -15,7 +15,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { useDispatch } from "react-redux";
 
+import {authSignInUser} from '../../redux/auth/authOperations'
 
 
 
@@ -29,8 +31,9 @@ export default function LoginScreen({navigation}) {
   
   const [isShowKeybord, setIsShowKeybord] = useState(false)
   const [state, setState] = useState(initialState)
-  
 
+  const dispatch = useDispatch()
+  
   const [dimensions, setDimensions] = useState(
     Dimensions.get("window").width - 20 * 2
   );
@@ -42,24 +45,27 @@ export default function LoginScreen({navigation}) {
       setDimensions(width);
     };
     Dimensions.addEventListener("change", onChange);
-    return () => {
-        Dimensions.remove();
-    };
+    // return () => {
+    //     Dimensions.remove();
+    // };
   }, []);
   
 
-  const keyboardHide = () =>{
+  const hadleSubmit = () =>{
     setIsShowKeybord(false);
-    Keyboard.dismiss();
-    console.log(state)
+    dispatch(authSignInUser(state))
     setState(initialState)
   }
 
+  const keyboardHide = () => {
+    Keyboard.dismiss()
+    setIsShowKeybord(false);
+  }
 
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
       style={styles.image}
       source={require('../../assets/images/hd-wallpaper-g894f88c32_1280.jpg')}>
@@ -97,7 +103,7 @@ export default function LoginScreen({navigation}) {
               />
             </View>
             <Button title='SIGN IN'
-              onPress={keyboardHide}
+              onPress={hadleSubmit}
             />
             <TouchableOpacity 
                 onPress={()=> navigation.navigate("Register")}

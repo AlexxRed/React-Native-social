@@ -45,9 +45,9 @@ export default function RegisterScreen({navigation}) {
       setDimensions(width);
     };
     Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.remove();
-    };
+    // return () => {
+    //   Dimensions.remove();
+    // };
   }, []);
   
 

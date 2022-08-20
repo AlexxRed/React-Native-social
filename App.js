@@ -7,6 +7,8 @@ import {useRoute} from './router';
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
+import db from "./firebase/config";
+
 const loadFonts = async () => {
   await Font.loadAsync({
     "DynaPuff": require("./assets/fonts/static/DynaPuff/DynaPuff-Regular.ttf"), 
@@ -18,8 +20,11 @@ const loadFonts = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const routing = useRoute(false)
+  db.auth().onAuthStateChanged((user) => setUser(user));
+
+  const routing = useRoute(user)
 
   if (!isReady) {
     return <AppLoading

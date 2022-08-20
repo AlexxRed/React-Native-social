@@ -13,8 +13,15 @@ export const authSignUpUser = ({email, password, name}) => async(dispatch, getSt
     }
 };
 
-export const authSignInUser = () => async(dispatch, getState)=>{
-
+export const authSignInUser = ({email, password}) => async(dispatch, getState)=>{
+    try {
+        const user = await db
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        console.log('úser',user)
+    } catch (error) {
+        console.log(error.message)
+    }
 };
 
 export const authSignOutUser = () => async(dispatch, getState)=>{
