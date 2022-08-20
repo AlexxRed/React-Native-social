@@ -31,9 +31,9 @@ const DefaultScreenPosts = ({ route, navigation }) => {
           </View>
         )}
       />
-      <Button title="go to map" onPress={() => navigation.navigate("Map")} />
+      <Button title="Go to map" onPress={() => navigation.navigate("Map")} />
       <Button
-        title="go to Comments"
+        title="Go to Comments"
         onPress={() => navigation.navigate("Comments")}
       />
     </View>
