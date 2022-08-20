@@ -15,7 +15,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { useDispatch } from "react-redux";
 
+import {authSignUpUser} from '../../redux/auth/authOperations'
 
 
 
@@ -26,8 +28,10 @@ const initialState = {
 }
 
 export default function RegisterScreen({navigation}) {
-  const [isShowKeybord, setIsShowKeybord] = useState(false)
-  const [state, setState] = useState(initialState)
+  const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [state, setState] = useState(initialState);
+
+  const dispatch = useDispatch();
   
 
   const [dimensions, setDimensions] = useState(
@@ -47,10 +51,11 @@ export default function RegisterScreen({navigation}) {
   }, []);
   
 
-  const keyboardHide = () =>{
+  const handleSubmit = () =>{
     setIsShowKeybord(false);
     Keyboard.dismiss();
     console.log(state)
+    dispatch(authSignUpUser(state))
     setState(initialState)
   }
 
@@ -106,7 +111,7 @@ export default function RegisterScreen({navigation}) {
               />
             </View>
             <Button title='SIGN IN'
-              onPress={keyboardHide}
+              onPress={handleSubmit}
             />
             <TouchableOpacity 
                 onPress={()=> navigation.navigate("Login")}
