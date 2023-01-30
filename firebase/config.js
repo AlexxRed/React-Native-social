@@ -14,8 +14,9 @@
 //   const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 // //   firebase.initializeApp(firebaseConfig);
-
 //   export default firebaseApp;
+// second option
+
 
   import * as firebase from "firebase";
 import "firebase/auth";
